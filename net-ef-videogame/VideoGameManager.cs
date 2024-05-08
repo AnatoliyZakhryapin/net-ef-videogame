@@ -177,34 +177,46 @@ namespace net_ef_videogame
             //return videoGames;
         }
 
-        internal static void DeleteVideoGame(VideoGame videoGame)
+        internal static bool DeleteVideoGame(VideoGame videoGame)
         {
-            using SqlConnection connessioneSql = new SqlConnection(STRINGA_DI_CONNESSIONE);
+            using VideoGameContext db = new VideoGameContext();
 
             try
             {
-                connessioneSql.Open();
-                string query = @"DELETE FROM videogames WHERE id = @id";
-
-                using SqlCommand cmd = new SqlCommand(query, connessioneSql);
-                cmd.Parameters.AddWithValue("@id", videoGame.Id);
-
-                int affectedRows = cmd.ExecuteNonQuery();
-
-                if(affectedRows > 0)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine($"Eliminato con successo!");
-                    Console.WriteLine($"Dati del VideoGame eliminato: ");
-                    Console.WriteLine();
-                    Console.WriteLine(videoGame.ToString());
-                }
+                db.Remove(videoGame);
+                db.SaveChanges();
+                return true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine();
-                Console.WriteLine(ex.Message);
+                return false;
             }
+            //using SqlConnection connessioneSql = new SqlConnection(STRINGA_DI_CONNESSIONE);
+
+            //try
+            //{
+            //    connessioneSql.Open();
+            //    string query = @"DELETE FROM videogames WHERE id = @id";
+
+            //    using SqlCommand cmd = new SqlCommand(query, connessioneSql);
+            //    cmd.Parameters.AddWithValue("@id", videoGame.Id);
+
+            //    int affectedRows = cmd.ExecuteNonQuery();
+
+            //    if(affectedRows > 0)
+            //    {
+            //        Console.WriteLine();
+            //        Console.WriteLine($"Eliminato con successo!");
+            //        Console.WriteLine($"Dati del VideoGame eliminato: ");
+            //        Console.WriteLine();
+            //        Console.WriteLine(videoGame.ToString());
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine();
+            //    Console.WriteLine(ex.Message);
+            //}
         }
     }
 }
