@@ -20,7 +20,13 @@ namespace net_ef_videogame
             db.SaveChanges();
         }
 
+        internal static List<SoftwareHouse> GetSoftwareHouseList()
+        {
+            using VideoGameContext db = new VideoGameContext();
+            List<SoftwareHouse> softwareHouses = db.SoftwareHouses.OrderBy(x => x.SoftwareHouseId).ToList<SoftwareHouse>();
 
+            return softwareHouses;
+        }
         internal static bool AddNewGame(VideoGame newVideoGame)
         {
             using VideoGameContext db = new VideoGameContext();
