@@ -19,7 +19,8 @@ namespace net_ef_videogame
                 Console.WriteLine("2. Ricercare un videogioco per ID.");
                 Console.WriteLine("3. Ricercare tutti i videogiochi aventi il nome contenente una determinata stringa inserita in input.");
                 Console.WriteLine("4. Cancellare un videogioco.");
-                Console.WriteLine("5. Chiudere il programma.");
+                Console.WriteLine("5. Inserire una nuova softwareHouse.");
+                Console.WriteLine("6. Chiudere il programma.");
 
                 Console.WriteLine();
                 string inputChoice = Console.ReadLine();
@@ -46,6 +47,9 @@ namespace net_ef_videogame
                             DeleteGame();
                             break;
                         case 5:
+                            CreateNewSoftwareHouse();
+                            break; 
+                        case 6:
                             return;
 
                     }
@@ -57,6 +61,99 @@ namespace net_ef_videogame
                     Console.WriteLine();
                 }
             }
+        }
+
+        static void CreateNewSoftwareHouse()
+        {
+            string name, taxId, city, country;
+
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Inserisci il nome del software house");
+                    string inputName = Console.ReadLine();
+
+                    if (string.IsNullOrWhiteSpace(inputName))
+                        throw new Exception("Input non puo essere vuoto. Riprova");
+
+                    name = inputName;
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Errore: {ex.Message}");
+                }
+            }
+
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Inserisci tax_id del software house");
+                    string inputTaxId = Console.ReadLine();
+
+                    if (string.IsNullOrWhiteSpace(inputTaxId))
+                        throw new Exception("Input non puo essere vuoto. Riprova");
+
+                    taxId = inputTaxId;
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Errore: {ex.Message}");
+                }
+            }
+
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Inserisci city del software house");
+                    string inputCity = Console.ReadLine();
+
+                    if (string.IsNullOrWhiteSpace(inputCity))
+                        throw new Exception("Input non puo essere vuoto. Riprova");
+
+                    city = inputCity;
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Errore: {ex.Message}");
+                }
+            }
+
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Inserisci country del software house");
+                    string inputCountry = Console.ReadLine();
+
+                    if (string.IsNullOrWhiteSpace(inputCountry))
+                        throw new Exception("Input non puo essere vuoto. Riprova");
+
+                    country = inputCountry;
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Errore: {ex.Message}");
+                }
+            }
+
+           SoftwareHouse newSoftwareHoude = new SoftwareHouse(name,taxId,city,country, DateTime.Now, null);
+
+            VideoGameManager.AddNewSoftwareHouse(newSoftwareHoude);
         }
 
         static void CreateNewGame()
@@ -148,7 +245,7 @@ namespace net_ef_videogame
                 }
             }
 
-            VideoGame newVideoGame = new VideoGame(name, overview, releaseDate, DateTime.Now, softwareHouseID );
+            VideoGame newVideoGame = new VideoGame(name, overview, releaseDate, DateTime.Now, DateTime.Now, softwareHouseID );
 
             VideoGameManager.AddNewGame(newVideoGame);
         }
