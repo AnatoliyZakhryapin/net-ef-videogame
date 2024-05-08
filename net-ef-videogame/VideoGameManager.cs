@@ -12,12 +12,20 @@ namespace net_ef_videogame
     {
         private const string STRINGA_DI_CONNESSIONE = "Data Source=localhost;Initial Catalog=videogames;Integrated Security=True;Pooling=False;Encrypt=False;TrustServerCertificate=False";
 
-        internal static void AddNewSoftwareHouse(SoftwareHouse softwareHouse)
+        internal static bool AddNewSoftwareHouse(SoftwareHouse softwareHouse)
         {
             using VideoGameContext db = new VideoGameContext();
 
-            db.Add(softwareHouse);
-            db.SaveChanges();
+            try
+            {
+                db.Add(softwareHouse);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         internal static List<SoftwareHouse> GetSoftwareHouseList()
