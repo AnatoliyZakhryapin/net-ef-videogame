@@ -19,25 +19,39 @@ namespace net_ef_videogame
             db.Add(softwareHouse);
             db.SaveChanges();
         }
-        internal static void AddNewGame(VideoGame newVideoGame)
-        {
-            //throw new NotImplementedException();
 
-            using SqlConnection connessioneSql = new SqlConnection(STRINGA_DI_CONNESSIONE);
+
+        internal static bool AddNewGame(VideoGame newVideoGame)
+        {
+            using VideoGameContext db = new VideoGameContext();
 
             try
             {
-                connessioneSql.Open();
-                string query = @"INSERT INTO videogames (name, overview, release_date, created_at, updated_at, software_house_id)
-VALUES (@name, @overview, @release_date, @created_at, @updated_at, @sh_id)";
+                db.Add(newVideoGame);
+                db.SaveChanges();
+                return true; 
+            }
+            catch (Exception ex)
+            {
+                return false; 
+            }
 
-                using SqlCommand cmd = new SqlCommand(query, connessioneSql);
-                InsertInternal(cmd, newVideoGame);
-            }
-            catch (Exception ex) 
-            { 
-                Console.WriteLine(ex.Message);
-            }
+
+            //            using SqlConnection connessioneSql = new SqlConnection(STRINGA_DI_CONNESSIONE);
+
+            //            try
+            //            {
+            //                connessioneSql.Open();
+            //                string query = @"INSERT INTO videogames (name, overview, release_date, created_at, updated_at, software_house_id)
+            //VALUES (@name, @overview, @release_date, @created_at, @updated_at, @sh_id)";
+
+            //                using SqlCommand cmd = new SqlCommand(query, connessioneSql);
+            //                InsertInternal(cmd, newVideoGame);
+            //            }
+            //            catch (Exception ex) 
+            //            { 
+            //                Console.WriteLine(ex.Message);
+            //            }
         }
 
         private static int InsertInternal(SqlCommand cmd, VideoGame newVideoGame)
