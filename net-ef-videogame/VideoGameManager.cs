@@ -10,8 +10,15 @@ namespace net_ef_videogame
 {
     internal static class VideoGameManager
     {
-        private const string STRINGA_DI_CONNESSIONE = "Data Source=localhost;Initial Catalog=db-videogames-query;Integrated Security=True;Pooling=False;Encrypt=False;TrustServerCertificate=False";
+        private const string STRINGA_DI_CONNESSIONE = "Data Source=localhost;Initial Catalog=videogames;Integrated Security=True;Pooling=False;Encrypt=False;TrustServerCertificate=False";
 
+        internal static void AddNewSoftwareHouse(SoftwareHouse softwareHouse)
+        {
+            using VideoGameContext db = new VideoGameContext();
+
+            db.Add(softwareHouse);
+            db.SaveChanges();
+        }
         internal static void AddNewGame(VideoGame newVideoGame)
         {
             //throw new NotImplementedException();
@@ -40,7 +47,7 @@ VALUES (@name, @overview, @release_date, @created_at, @updated_at, @sh_id)";
             cmd.Parameters.Add(new SqlParameter("@release_date", newVideoGame.ReleaseDate));
             cmd.Parameters.Add(new SqlParameter("@created_at", newVideoGame.CreatedAt));
             cmd.Parameters.Add(new SqlParameter("@updated_at", newVideoGame.UpdatedAt));
-            cmd.Parameters.Add(new SqlParameter("@sh_id", newVideoGame.SoftwareHouseID));
+            cmd.Parameters.Add(new SqlParameter("@sh_id", newVideoGame.SoftwareHouseId));
 
             int affectedRows = cmd.ExecuteNonQuery();
             return affectedRows;
@@ -81,7 +88,7 @@ VALUES (@name, @overview, @release_date, @created_at, @updated_at, @sh_id)";
                 DateTime updatedAt = reader.GetDateTime(indiceUpdatedAt);
                 long softwareHouseID = reader.GetInt64(indiceSoftwareHouseID);
 
-                videoGame = new VideoGame(idVideogame, name, overview, releaseDate, createdAt, updatedAt, softwareHouseID);
+                videoGame = new VideoGame( name, overview, releaseDate, createdAt, updatedAt, softwareHouseID);
             }
             catch (Exception ex) 
             {
@@ -126,7 +133,7 @@ VALUES (@name, @overview, @release_date, @created_at, @updated_at, @sh_id)";
                     DateTime updatedAt = reader.GetDateTime(indiceUpdatedAt);
                     long softwareHouseID = reader.GetInt64(indiceSoftwareHouseID);
 
-                    VideoGame videoGame = new VideoGame(idVideogame, name, overview, releaseDate, createdAt, updatedAt, softwareHouseID);
+                    VideoGame videoGame = new VideoGame( name, overview, releaseDate, createdAt, updatedAt, softwareHouseID);
                
                     videoGames.Add(videoGame);
                 }
