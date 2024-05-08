@@ -73,50 +73,56 @@ namespace net_ef_videogame
             return affectedRows;
         }
 
-        internal static VideoGame GetVideoGameById(long id)
+        internal static VideoGame? GetVideoGameById(long id)
         {
-            VideoGame videoGame = null;
+            using VideoGameContext db = new VideoGameContext();
 
-            using SqlConnection connessioneSql = new SqlConnection(STRINGA_DI_CONNESSIONE);
-
-            try
-            {
-                connessioneSql.Open();
-                string query = @"SELECT * FROM videogames WHERE id = @id";
-
-                using SqlCommand cmd = new SqlCommand(query, connessioneSql);
-                cmd.Parameters.AddWithValue("@id", id);
-
-                using SqlDataReader reader = cmd.ExecuteReader();
-
-                if (!reader.Read())
-                    throw new Exception($"VideoGame con id - {id} non e stata trovata.");
-
-                int indiceID = reader.GetOrdinal("id");
-                int indiceName = reader.GetOrdinal("name");
-                int indiceOverview = reader.GetOrdinal("overview");
-                int indiceReleaseDate = reader.GetOrdinal("release_date");
-                int indiceCreatedAt = reader.GetOrdinal("created_at");
-                int indiceUpdatedAt = reader.GetOrdinal("updated_at");
-                int indiceSoftwareHouseID = reader.GetOrdinal("software_house_id");
-
-                long idVideogame = reader.GetInt64(indiceID);
-                string name = reader.GetString(indiceName);
-                string overview = reader.GetString(indiceOverview);
-                DateTime releaseDate = reader.GetDateTime(indiceReleaseDate);
-                DateTime createdAt = reader.GetDateTime(indiceCreatedAt);
-                DateTime updatedAt = reader.GetDateTime(indiceUpdatedAt);
-                long softwareHouseID = reader.GetInt64(indiceSoftwareHouseID);
-
-                videoGame = new VideoGame( name, overview, releaseDate, createdAt, updatedAt, softwareHouseID);
-            }
-            catch (Exception ex) 
-            {
-                Console.WriteLine();
-                Console.WriteLine(ex.Message);
-            }
+            VideoGame videoGame = db.VideoGames.Where(game  => game.Id == id).FirstOrDefault();
 
             return videoGame;
+  
+            //VideoGame videoGame = null;
+
+            //using SqlConnection connessioneSql = new SqlConnection(STRINGA_DI_CONNESSIONE);
+
+            //try
+            //{
+            //    connessioneSql.Open();
+            //    string query = @"SELECT * FROM videogames WHERE id = @id";
+
+            //    using SqlCommand cmd = new SqlCommand(query, connessioneSql);
+            //    cmd.Parameters.AddWithValue("@id", id);
+
+            //    using SqlDataReader reader = cmd.ExecuteReader();
+
+            //    if (!reader.Read())
+            //        throw new Exception($"VideoGame con id - {id} non e stata trovata.");
+
+            //    int indiceID = reader.GetOrdinal("id");
+            //    int indiceName = reader.GetOrdinal("name");
+            //    int indiceOverview = reader.GetOrdinal("overview");
+            //    int indiceReleaseDate = reader.GetOrdinal("release_date");
+            //    int indiceCreatedAt = reader.GetOrdinal("created_at");
+            //    int indiceUpdatedAt = reader.GetOrdinal("updated_at");
+            //    int indiceSoftwareHouseID = reader.GetOrdinal("software_house_id");
+
+            //    long idVideogame = reader.GetInt64(indiceID);
+            //    string name = reader.GetString(indiceName);
+            //    string overview = reader.GetString(indiceOverview);
+            //    DateTime releaseDate = reader.GetDateTime(indiceReleaseDate);
+            //    DateTime createdAt = reader.GetDateTime(indiceCreatedAt);
+            //    DateTime updatedAt = reader.GetDateTime(indiceUpdatedAt);
+            //    long softwareHouseID = reader.GetInt64(indiceSoftwareHouseID);
+
+            //    videoGame = new VideoGame( name, overview, releaseDate, createdAt, updatedAt, softwareHouseID);
+            //}
+            //catch (Exception ex) 
+            //{
+            //    Console.WriteLine();
+            //    Console.WriteLine(ex.Message);
+            //}
+
+            //return videoGame;
         }
 
         internal static List<VideoGame> GetVideoGamesByName(string nameToSearch)
