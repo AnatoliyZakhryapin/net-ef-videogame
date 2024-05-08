@@ -388,13 +388,33 @@ namespace net_ef_videogame
 
                     VideoGame videoGameFinded = VideoGameManager.GetVideoGameById(id);
 
-                    if (videoGameFinded != null)
-                    {
-                        VideoGameManager.DeleteVideoGame(videoGameFinded);
-                        Console.WriteLine();
-                    }
+                    if (videoGameFinded == null)
+                        throw new ValueNotFoundException($"VideoGame con id - {id} non e stata trovata.");
+
+                    VideoGameManager.DeleteVideoGame(videoGameFinded);
+                    Console.WriteLine();
+                    Console.WriteLine($"VideoGame con id {id} è stata eliminata con successo!");
                     Console.WriteLine();
                     break;
+                }
+                catch (ValueNotFoundException ex)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Errore: {ex.Message}");
+                    Console.WriteLine();
+                    string input = "";
+                    while (input != "no")
+                    {
+                        Console.WriteLine("Vuoi uscire al menu principale? (si/no)");
+                        Console.WriteLine();
+                        input = Console.ReadLine();
+                        Console.WriteLine();
+
+                        if (input == "si")
+                        {
+                            return;
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
