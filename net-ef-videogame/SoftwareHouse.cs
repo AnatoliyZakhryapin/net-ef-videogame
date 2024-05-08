@@ -27,7 +27,7 @@ namespace net_ef_videogame
         public List<VideoGame> VideoGames { get; set; }
 
         public SoftwareHouse() { }
-        public SoftwareHouse(string name, string taxId, string city, string country, DateTime createdAt, DateTime? updatedAt)
+        public SoftwareHouse(string name, string taxId, string city, string country, DateTime? createdAt, DateTime? updatedAt)
         {
             Name = name;
             TaxId = taxId;
