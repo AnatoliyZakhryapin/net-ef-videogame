@@ -66,95 +66,113 @@ namespace net_ef_videogame
 
         static void CreateNewSoftwareHouse()
         {
-            string name, taxId, city, country;
-
             while (true)
             {
-                try
+                string name, taxId, city, country;
+
+                while (true)
+                {
+                    try
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("Inserisci il nome del software house");
+                        string inputName = Console.ReadLine();
+
+                        if (string.IsNullOrWhiteSpace(inputName))
+                            throw new Exception("Input non puo essere vuoto. Riprova");
+
+                        name = inputName;
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine($"Errore: {ex.Message}");
+                    }
+                }
+
+                while (true)
+                {
+                    try
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("Inserisci tax_id del software house");
+                        string inputTaxId = Console.ReadLine();
+
+                        if (string.IsNullOrWhiteSpace(inputTaxId))
+                            throw new Exception("Input non puo essere vuoto. Riprova");
+
+                        taxId = inputTaxId;
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine($"Errore: {ex.Message}");
+                    }
+                }
+
+                while (true)
+                {
+                    try
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("Inserisci city del software house");
+                        string inputCity = Console.ReadLine();
+
+                        if (string.IsNullOrWhiteSpace(inputCity))
+                            throw new Exception("Input non puo essere vuoto. Riprova");
+
+                        city = inputCity;
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine($"Errore: {ex.Message}");
+                    }
+                }
+
+                while (true)
+                {
+                    try
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("Inserisci country del software house");
+                        string inputCountry = Console.ReadLine();
+
+                        if (string.IsNullOrWhiteSpace(inputCountry))
+                            throw new Exception("Input non puo essere vuoto. Riprova");
+
+                        country = inputCountry;
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine($"Errore: {ex.Message}");
+                    }
+                }
+
+                SoftwareHouse newSoftwareHoude = new SoftwareHouse(name,taxId,city,country, DateTime.Now, null);
+
+                if (VideoGameManager.AddNewSoftwareHouse(newSoftwareHoude))
                 {
                     Console.WriteLine();
-                    Console.WriteLine("Inserisci il nome del software house");
-                    string inputName = Console.ReadLine();
-
-                    if (string.IsNullOrWhiteSpace(inputName))
-                        throw new Exception("Input non puo essere vuoto. Riprova");
-
-                    name = inputName;
+                    Console.WriteLine("SoftwareHouse è stato inserito con successo!");
+                    Console.WriteLine();
+                    Console.WriteLine("SoftwareHouse inserito è: ");
+                    Console.WriteLine();
+                    Console.WriteLine($"{newSoftwareHoude.ToString()}");
+                    Console.WriteLine();
                     break;
                 }
-                catch (Exception ex)
+                else
                 {
                     Console.WriteLine();
-                    Console.WriteLine($"Errore: {ex.Message}");
+                    Console.WriteLine("Salvatoggio non e andato a buon fine, riprova.");
                 }
             }
-
-            while (true)
-            {
-                try
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("Inserisci tax_id del software house");
-                    string inputTaxId = Console.ReadLine();
-
-                    if (string.IsNullOrWhiteSpace(inputTaxId))
-                        throw new Exception("Input non puo essere vuoto. Riprova");
-
-                    taxId = inputTaxId;
-                    break;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine($"Errore: {ex.Message}");
-                }
-            }
-
-            while (true)
-            {
-                try
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("Inserisci city del software house");
-                    string inputCity = Console.ReadLine();
-
-                    if (string.IsNullOrWhiteSpace(inputCity))
-                        throw new Exception("Input non puo essere vuoto. Riprova");
-
-                    city = inputCity;
-                    break;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine($"Errore: {ex.Message}");
-                }
-            }
-
-            while (true)
-            {
-                try
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("Inserisci country del software house");
-                    string inputCountry = Console.ReadLine();
-
-                    if (string.IsNullOrWhiteSpace(inputCountry))
-                        throw new Exception("Input non puo essere vuoto. Riprova");
-
-                    country = inputCountry;
-                    break;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine($"Errore: {ex.Message}");
-                }
-            }
-
-           SoftwareHouse newSoftwareHoude = new SoftwareHouse(name,taxId,city,country, DateTime.Now, null);
-
-            VideoGameManager.AddNewSoftwareHouse(newSoftwareHoude);
         }
 
         static void CreateNewGame()
