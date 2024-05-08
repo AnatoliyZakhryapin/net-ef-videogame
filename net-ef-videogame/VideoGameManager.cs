@@ -226,5 +226,14 @@ namespace net_ef_videogame
             //    Console.WriteLine(ex.Message);
             //}
         }
+
+        internal static List<VideoGame> GetVideoGameListOfSoftwareHouse(long id)
+        {
+            using VideoGameContext db = new VideoGameContext();
+
+            List<VideoGame> videoGames = db.VideoGames.Where(game => game.SoftwareHouseId == id).ToList();
+
+            return videoGames;
+        }
     }
 }

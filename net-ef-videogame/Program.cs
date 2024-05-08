@@ -21,7 +21,8 @@ namespace net_ef_videogame
                 Console.WriteLine("3. Ricercare tutti i videogiochi aventi il nome contenente una determinata stringa inserita in input.");
                 Console.WriteLine("4. Cancellare un videogioco.");
                 Console.WriteLine("5. Inserire una nuova softwareHouse.");
-                Console.WriteLine("6. Chiudere il programma.");
+                Console.WriteLine("6. Ricercare tutti i videogiochi di una SoftwareHouse specifica.");
+                Console.WriteLine("7. Chiudere il programma.");
 
                 Console.WriteLine();
                 string inputChoice = Console.ReadLine();
@@ -49,8 +50,11 @@ namespace net_ef_videogame
                             break;
                         case 5:
                             CreateNewSoftwareHouse();
-                            break; 
+                            break;
                         case 6:
+                            PrintAllVideoGamesOfSoftwareHouse();
+                            break;
+                        case 7:
                             return;
 
                     }
@@ -62,6 +66,78 @@ namespace net_ef_videogame
                     Console.WriteLine();
                 }
             }
+        }
+
+        static void PrintAllVideoGamesOfSoftwareHouse()
+        {
+       
+            long softwareHouseID;
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine();
+                    Console.Write("Inserisci id di softwareHouseID: ");
+                    string inputSoftwareHouseID = Console.ReadLine();
+
+                    List<SoftwareHouse> softwareHouses = VideoGameManager.GetSoftwareHouseList();
+
+                    if (!long.TryParse(inputSoftwareHouseID, out long id))
+                        throw new Exception("Formato Id non valido. Riprova.");
+
+                    if (!softwareHouses.Any(sh => sh.SoftwareHouseId == id))
+                        throw new ValueNotFoundException($"L'ID inserito non corrisponde a nessuna casa di software.");
+
+                    softwareHouseID = id;
+
+                    List<VideoGame> listVideoGames = VideoGameManager.GetVideoGameListOfSoftwareHouse(id);
+
+                    Console.WriteLine();
+                    Console.WriteLine($"Sono stati trovati {listVideoGames.Count()} VideoGames: ");
+                    Console.WriteLine();
+
+                    if (listVideoGames.Count > 0)
+                    {
+                        foreach (VideoGame videoGame in listVideoGames)
+                        {
+                            Console.WriteLine(videoGame.ToString());
+                            Console.WriteLine();
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Non ci sono i resultati per SoftwareHouse con id {id}");
+                        Console.WriteLine();
+                    }
+
+                    break;
+                }
+                catch (ValueNotFoundException ex)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Errore: {ex.Message}");
+                    Console.WriteLine();
+                    string input = "";
+                    while (input != "no")
+                    {
+                        Console.WriteLine("Vuoi uscire al menu principale? (si/no)");
+                        Console.WriteLine();
+                        input = Console.ReadLine();
+                        Console.WriteLine();
+
+                        if (input == "si")
+                        {
+                            return;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Errore: {ex.Message}");
+                }
+            }
+            
         }
 
         static void CreateNewSoftwareHouse()
