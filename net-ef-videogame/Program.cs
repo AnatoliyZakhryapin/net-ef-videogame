@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using Microsoft.Extensions.Logging;
+using System.Data.SqlClient;
 
 namespace net_ef_videogame
 {
@@ -293,13 +294,32 @@ namespace net_ef_videogame
 
                     VideoGame videoGameFinded = VideoGameManager.GetVideoGameById(idToSerach);
 
-                    if(videoGameFinded != null)
-                    {
-                        Console.WriteLine();
-                        Console.WriteLine(videoGameFinded.ToString());
-                        Console.WriteLine();
-                    }
+                    if(videoGameFinded == null)
+                        throw new ValueNotFoundException($"VideoGame con id - {idToSerach} non e stata trovata.");
+
+                    Console.WriteLine();
+                    Console.WriteLine(videoGameFinded.ToString());
+                    Console.WriteLine();
                     break;
+                }
+                catch( ValueNotFoundException ex)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Errore: {ex.Message}");
+                    Console.WriteLine();
+                    string input = "";
+                    while (input != "no")
+                    {
+                        Console.WriteLine("Vuoi uscire al menu principale? (si/no)");
+                        Console.WriteLine();
+                        input = Console.ReadLine();
+                        Console.WriteLine();
+
+                        if (input == "si")
+                        {
+                           return;
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
